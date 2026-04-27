@@ -32,7 +32,7 @@ client.on("messageCreate", async message => {
   if (message.author.bot) return;
   if (!message.content.startsWith("!")) return;
 
-  const args = message.content.slice(1).split(" ");
+  const args = message.content.slice(1).trim().split(/ +/);
   const command = args.shift().toLowerCase();
 
   if (command === "play") {
@@ -61,19 +61,19 @@ client.on("messageCreate", async message => {
 
       const player = createAudioPlayer();
 
-      const queueData = {
+      const data = {
         textChannel: message.channel,
         connection,
         player,
         songs
       };
 
-      queue.set(message.guild.id, queueData);
+      queue.set(message.guild.id, data);
       playSong(message.guild, songs[0]);
 
     } else {
       serverQueue.songs.push(song);
-      message.reply(`📥 Masuk queue: ${query}`);
+      message.reply(`📥 Ditambahkan ke queue: ${query}`);
     }
   }
 
